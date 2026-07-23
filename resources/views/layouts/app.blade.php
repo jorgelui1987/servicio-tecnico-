@@ -530,6 +530,12 @@
             Backup & Restore
         </a>
         @endif
+
+        <a href="{{ route('app.index') }}"
+           class="nav-link {{ request()->routeIs('app.*') ? 'active' : '' }}">
+            <span class="nav-icon"><i class="fas fa-mobile-alt"></i></span>
+            App Móvil
+        </a>
     </nav>
 
     <!-- Logout -->
