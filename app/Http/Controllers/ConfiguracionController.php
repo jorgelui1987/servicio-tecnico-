@@ -13,7 +13,7 @@ class ConfiguracionController extends Controller
     // ── Vista principal ─────────────────────────────────────────────────
     public function index()
     {
-        $usuarios = User::orderBy('rol')->orderBy('name')->get();
+        $usuarios = User::where('rol', '!=', 'superadmin')->orderBy('rol')->orderBy('name')->get();
         $empresa  = Configuracion::empresa();
         return view('configuracion.index', compact('usuarios', 'empresa'));
     }
