@@ -10,9 +10,14 @@
                     <h6 class="text-white mb-0" style="font-size:14px;font-weight:600;">Instala la app</h6>
                     <p class="text-white-50 mb-0" style="font-size:12px;">Accede rápido desde tu celular</p>
                 </div>
-                <button id="pwa-install-btn" class="btn btn-sm px-3" style="background:linear-gradient(135deg,#a855f7,#ec4899);color:#fff;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;">
-                    Instalar
-                </button>
+                <div class="d-flex gap-2">
+                    <button id="pwa-install-btn" class="btn btn-sm px-3" style="background:linear-gradient(135deg,#a855f7,#ec4899);color:#fff;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;">
+                        Instalar
+                    </button>
+                    <a href="{{ route('app.index') }}" class="btn btn-sm px-2" style="background:rgba(255,255,255,0.15);color:#fff;border-radius:20px;font-size:12px;font-weight:500;text-decoration:none;white-space:nowrap;">
+                        <i class="bi bi-download"></i>
+                    </a>
+                </div>
                 <button id="pwa-close-btn" class="btn btn-sm" style="color:rgba(255,255,255,0.5);border:none;background:transparent;font-size:18px;line-height:1;">×</button>
             </div>
         </div>
