@@ -92,9 +92,10 @@ class ReparacionController extends Controller
 
         // Generar URL de WhatsApp para notificar al cliente
         $cliente = $reparacion->cliente;
+        $urlEstado = route('reparaciones.public-status', $reparacion->numero_orden);
         $whatsappUrl = WhatsAppHelper::generarUrl(
             $cliente->telefono ?? $cliente->celular,
-            WhatsAppHelper::mensajeRecibido($reparacion, $nombreTienda)
+            WhatsAppHelper::mensajeRecibido($reparacion, $nombreTienda, $urlEstado)
         );
 
         $redirect = redirect()->route('reparaciones.show', $reparacion)
@@ -174,9 +175,11 @@ class ReparacionController extends Controller
             $empresa = Configuracion::empresa();
             $nombreTienda = $empresa->nombre_tienda ?? 'CRM Celulares';
             $cliente = $reparacion->cliente;
+            $urlEstado = route('reparaciones.public-status', $reparacion->numero_orden);
 
-            $mensaje = WhatsAppHelper::mensajeListo($reparacion, $nombreTienda);
-            if ($nuevoEstado === 'entregado') {
+            if ($nuevoEstado === 'listo') {
+                $mensaje = WhatsAppHelper::mensajeListo($reparacion, $nombreTienda, $urlEstado);
+            } else {
                 $costo = number_format($reparacion->costo_final ?: $reparacion->presupuesto ?: 0, 2);
                 $mensaje = "✅ *{$nombreTienda} - Orden de Reparación* - *ENTREGADO*\n\n" .
                     "📋 N° Orden: {$reparacion->numero_orden}\n" .
@@ -185,6 +188,10 @@ class ReparacionController extends Controller
                     "💰 Cobrado: S/ {$costo}\n" .
                     "📅 Entregado: " . now()->format('d/m/Y H:i') . "\n\n" .
                     "¡Gracias por su preferencia!";
+
+                if ($urlEstado) {
+                    $mensaje .= "\n\n🔗 *Estado en línea:*\n{$urlEstado}";
+                }
             }
 
             $whatsappUrl = WhatsAppHelper::generarUrl(

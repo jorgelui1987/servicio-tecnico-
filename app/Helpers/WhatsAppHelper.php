@@ -63,29 +63,41 @@ class WhatsAppHelper
     /**
      * Genera el mensaje de "Recibido" para una orden de reparación.
      */
-    public static function mensajeRecibido($reparacion, string $nombreTienda = 'CRM Celulares'): string
+    public static function mensajeRecibido($reparacion, string $nombreTienda = 'CRM Celulares', ?string $urlEstado = null): string
     {
-        return "🔧 *{$nombreTienda} - Orden de Reparación*\n\n" .
+        $mensaje = "🔧 *{$nombreTienda} - Orden de Reparación*\n\n" .
             "📋 N° Orden: {$reparacion->numero_orden}\n" .
             "📱 Equipo: {$reparacion->dispositivo} {$reparacion->marca} {$reparacion->modelo}\n" .
             "📝 Falla: {$reparacion->falla_reportada}\n" .
             "📅 Recibido: " . optional($reparacion->fecha_recepcion)->format('d/m/Y H:i') . "\n\n" .
             "✅ Su equipo ha sido recibido en nuestro taller. Le mantendremos informado del avance. ¡Gracias!";
+
+        if ($urlEstado) {
+            $mensaje .= "\n\n🔗 *Estado en línea:*\n{$urlEstado}";
+        }
+
+        return $mensaje;
     }
 
     /**
      * Genera el mensaje de "Listo para entregar" para una orden de reparación.
      */
-    public static function mensajeListo($reparacion, string $nombreTienda = 'CRM Celulares'): string
+    public static function mensajeListo($reparacion, string $nombreTienda = 'CRM Celulares', ?string $urlEstado = null): string
     {
         $costo = number_format($reparacion->costo_final ?: $reparacion->presupuesto ?: 0, 2);
 
-        return "🔧 *{$nombreTienda} - Orden de Reparación*\n\n" .
+        $mensaje = "🔧 *{$nombreTienda} - Orden de Reparación*\n\n" .
             "📋 N° Orden: {$reparacion->numero_orden}\n" .
             "📱 Equipo: {$reparacion->dispositivo} {$reparacion->marca} {$reparacion->modelo}\n" .
             "✅ *¡Su equipo está listo para recoger!*\n" .
             "💰 Costo: S/ {$costo}\n\n" .
             "📍 Lo esperamos en nuestro local para realizar la entrega. ¡Gracias por su preferencia!";
+
+        if ($urlEstado) {
+            $mensaje .= "\n\n🔗 *Estado en línea:*\n{$urlEstado}";
+        }
+
+        return $mensaje;
     }
 
     /**
