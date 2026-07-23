@@ -180,12 +180,12 @@
                 <p class="mt-2">
                     <i class="bi bi-whatsapp text-success"></i> 
                     Contáctanos por WhatsApp: 
-                    <a href="https://wa.me/51999999999?text=Quiero%20información%20sobre%20los%20planes" target="_blank" class="text-success fw-bold">
-                        +51 999 999 999
+                    <a href="https://wa.me/56982209690?text=Quiero%20información%20sobre%20los%20planes" target="_blank" class="text-success fw-bold">
+                        +56982209690
                     </a>
                     &nbsp;·&nbsp;
                     <i class="bi bi-envelope text-primary"></i> 
-                    <a href="mailto:ventas@crmcelulares.com" class="text-primary fw-bold">ventas@crmcelulares.com</a>
+                    <a href="mailto:luitechserena@gmail.com" class="text-primary fw-bold">luitechserena@gmail.com</a>
                 </p>
             </div>
         </div>
