@@ -12,6 +12,7 @@ use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\AppDownloadController;
 
 // ── PANEL SUPERADMIN (SIN tenant) ──────────────────────────────────────────
 Route::prefix('superadmin')->name('superadmin.')->group(function () {
@@ -39,6 +40,10 @@ Route::prefix('superadmin')->name('superadmin.')->group(function () {
 // está suspendido/expirado). La ruta es accesible públicamente para que los clientes escaneen el QR.
 Route::get('/r/{numero_orden}', [\App\Http\Controllers\PublicReparacionController::class, 'status'])
     ->name('reparaciones.public-status');
+
+// ── RUTA PARA DESCARGAR APP ───────────────────────────────────────────
+Route::get('/app', [AppDownloadController::class, 'index'])->name('app.index');
+Route::get('/app/descargar', [AppDownloadController::class, 'download'])->name('app.download');
 
 // ── RUTAS PÚBLICAS (Landing page para registrar nuevo tenant) ──────────────
 Route::get('/', function () {
