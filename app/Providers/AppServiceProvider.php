@@ -43,6 +43,19 @@ class AppServiceProvider extends ServiceProvider
                     'terminos_garantia' => '',
                 ];
             }
+            
+            // Si hay logo, usar una ruta directa al archivo (sin symlink)
+            if ($empresa && $empresa->logo) {
+                $logoPath = str_replace('storage/', '', $empresa->logo);
+                $fullPath = storage_path('app/public/' . $logoPath);
+                if (file_exists($fullPath)) {
+                    $empresa->logo_url = route('storage.serve', ['path' => $logoPath]);
+                } else {
+                    $empresa->logo_url = null;
+                }
+            } else {
+                $empresa->logo_url = null;
+            }
 
             $view->with('empresa', $empresa);
         });

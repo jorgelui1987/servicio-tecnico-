@@ -12,6 +12,7 @@ use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\SuperAdminController;
+use Illuminate\Support\Facades\Storage;
 
 // ── PANEL SUPERADMIN (SIN tenant) ──────────────────────────────────────────
 Route::prefix('superadmin')->name('superadmin.')->group(function () {
@@ -39,6 +40,15 @@ Route::prefix('superadmin')->name('superadmin.')->group(function () {
 // está suspendido/expirado). La ruta es accesible públicamente para que los clientes escaneen el QR.
 Route::get('/r/{numero_orden}', [\App\Http\Controllers\PublicReparacionController::class, 'status'])
     ->name('reparaciones.public-status');
+
+// ── RUTA PARA SERVIR ARCHIVOS DE STORAGE (sin symlink) ──────────────
+Route::get('/storage/{path}', function ($path) {
+    $fullPath = storage_path('app/public/' . $path);
+    if (!file_exists($fullPath)) {
+        abort(404);
+    }
+    return response()->file($fullPath);
+})->where('path', '.*')->name('storage.serve');
 
 // ── RUTAS PÚBLICAS (Landing page para registrar nuevo tenant) ──────────────
 Route::get('/', function () {

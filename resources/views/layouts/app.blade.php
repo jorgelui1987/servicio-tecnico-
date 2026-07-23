@@ -394,7 +394,7 @@
     <!-- Brand -->
     <div class="sidebar-brand d-flex align-items-center gap-3">
         @if(isset($empresa) && $empresa && $empresa->logo)
-            <img src="{{ asset($empresa->logo) }}" alt="Logo" style="width:42px;height:42px;border-radius:12px;object-fit:contain;">
+            <img src="{{ $empresa->logo_url ?? asset($empresa->logo) }}" alt="Logo" style="width:42px;height:42px;border-radius:12px;object-fit:contain;">
         @else
             <div class="brand-logo"><i class="fas fa-mobile-alt"></i></div>
         @endif
