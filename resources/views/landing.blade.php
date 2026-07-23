@@ -78,6 +78,19 @@
         $planBasico = $planesPrecios['basico'] ?? null;
         $planProfesional = $planesPrecios['profesional'] ?? null;
         $planEmpresarial = $planesPrecios['empresarial'] ?? null;
+
+        // Helper para formatear precio incluso si es objeto de respaldo
+        $mostrarPrecio = function($plan, $default) {
+            if (!$plan) return $default;
+            if (is_object($plan) && method_exists($plan, 'precioFormateado')) {
+                return $plan->precioFormateado();
+            }
+            if (isset($plan->simbolo) && isset($plan->precio_mensual)) {
+                $p = $plan->precio_mensual;
+                return $plan->simbolo . ($p == 0 ? '0' : ($p == floor($p) ? number_format($p, 0) : number_format($p, 2)));
+            }
+            return $default;
+        };
     @endphp
     <section class="py-5" id="precios">
         <div class="container">
@@ -93,7 +106,7 @@
                         <div class="card-body text-center">
                             <h5 class="fw-bold">🌱 {{ $planGratis->nombre ?? 'Gratis' }}</h5>
                             <p class="text-muted small">{{ $planGratis->descripcion ?? 'Para empezar' }}</p>
-                            <div class="price">{{ $planGratis ? $planGratis->precioFormateado() : 'S/0' }} <small>/mes</small></div>
+                            <div class="price">{{ $mostrarPrecio($planGratis, 'S/0') }} <small>/mes</small></div>
                             <ul class="feature-list text-start mt-3">
                                 <li><i class="bi bi-check2"></i> Hasta 3 usuarios</li>
                                 <li><i class="bi bi-check2"></i> Hasta 50 productos</li>
@@ -115,7 +128,7 @@
                         <div class="card-body text-center">
                             <h5 class="fw-bold">🚀 {{ $planBasico->nombre ?? 'Básico' }}</h5>
                             <p class="text-muted small">{{ $planBasico->descripcion ?? 'Para negocios pequeños' }}</p>
-                            <div class="price">{{ $planBasico ? $planBasico->precioFormateado() : 'S/49' }} <small>/mes</small></div>
+                            <div class="price">{{ $mostrarPrecio($planBasico, 'S/49') }} <small>/mes</small></div>
                             <ul class="feature-list text-start mt-3">
                                 <li><i class="bi bi-check2"></i> Hasta 5 usuarios</li>
                                 <li><i class="bi bi-check2"></i> Hasta 200 productos</li>
@@ -138,7 +151,7 @@
                             <span class="badge bg-primary position-absolute" style="top: -12px; right: 20px; padding: 6px 16px;">MÁS POPULAR</span>
                             <h5 class="fw-bold">⭐ {{ $planProfesional->nombre ?? 'Profesional' }}</h5>
                             <p class="text-muted small">{{ $planProfesional->descripcion ?? 'Para negocios en crecimiento' }}</p>
-                            <div class="price">{{ $planProfesional ? $planProfesional->precioFormateado() : 'S/99' }} <small>/mes</small></div>
+                            <div class="price">{{ $mostrarPrecio($planProfesional, 'S/99') }} <small>/mes</small></div>
                             <ul class="feature-list text-start mt-3">
                                 <li><i class="bi bi-check2"></i> Hasta 15 usuarios</li>
                                 <li><i class="bi bi-check2"></i> Hasta 1,000 productos</li>
@@ -160,7 +173,7 @@
                         <div class="card-body text-center">
                             <h5 class="fw-bold">🏢 {{ $planEmpresarial->nombre ?? 'Empresarial' }}</h5>
                             <p class="text-muted small">{{ $planEmpresarial->descripcion ?? 'Para grandes tiendas' }}</p>
-                            <div class="price">{{ $planEmpresarial ? $planEmpresarial->precioFormateado() : 'S/199' }} <small>/mes</small></div>
+                            <div class="price">{{ $mostrarPrecio($planEmpresarial, 'S/199') }} <small>/mes</small></div>
                             <ul class="feature-list text-start mt-3">
                                 <li><i class="bi bi-check2"></i> Usuarios ilimitados</li>
                                 <li><i class="bi bi-check2"></i> Productos ilimitados</li>

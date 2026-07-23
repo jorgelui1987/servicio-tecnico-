@@ -25,10 +25,54 @@ class PlanPrecio extends Model
 
     /**
      * Obtener todos los planes activos con sus precios.
+     * Si la tabla no existe, retorna valores por defecto.
      */
     public static function getPlanesActivos()
     {
-        return static::where('activo', true)->get()->keyBy('plan_key');
+        try {
+            return static::where('activo', true)->get()->keyBy('plan_key');
+        } catch (\Exception $e) {
+            // Si la tabla no existe, devolver valores por defecto
+            $defaults = [
+                'gratis' => (object)[
+                    'plan_key' => 'gratis',
+                    'nombre' => 'Gratis',
+                    'precio_mensual' => 0,
+                    'moneda' => 'PEN',
+                    'simbolo' => 'S/',
+                    'descripcion' => 'Para empezar',
+                    'precioFormateado' => function() { return 'S/0'; },
+                ],
+                'basico' => (object)[
+                    'plan_key' => 'basico',
+                    'nombre' => 'Básico',
+                    'precio_mensual' => 49,
+                    'moneda' => 'PEN',
+                    'simbolo' => 'S/',
+                    'descripcion' => 'Para negocios pequeños',
+                    'precioFormateado' => function() { return 'S/49'; },
+                ],
+                'profesional' => (object)[
+                    'plan_key' => 'profesional',
+                    'nombre' => 'Profesional',
+                    'precio_mensual' => 99,
+                    'moneda' => 'PEN',
+                    'simbolo' => 'S/',
+                    'descripcion' => 'Para negocios en crecimiento',
+                    'precioFormateado' => function() { return 'S/99'; },
+                ],
+                'empresarial' => (object)[
+                    'plan_key' => 'empresarial',
+                    'nombre' => 'Empresarial',
+                    'precio_mensual' => 199,
+                    'moneda' => 'PEN',
+                    'simbolo' => 'S/',
+                    'descripcion' => 'Para grandes tiendas',
+                    'precioFormateado' => function() { return 'S/199'; },
+                ],
+            ];
+            return collect($defaults);
+        }
     }
 
     /**

@@ -305,7 +305,11 @@ class SuperAdminController extends Controller
     // ─── Gestión de Precios de Planes ───────────────────────────────────
     public function planPreciosIndex()
     {
-        $planes = PlanPrecio::orderBy('precio_mensual')->get();
+        try {
+            $planes = PlanPrecio::orderBy('precio_mensual')->get();
+        } catch (\Exception $e) {
+            $planes = collect([]);
+        }
         return view('superadmin.planes-precios', compact('planes'));
     }
 
