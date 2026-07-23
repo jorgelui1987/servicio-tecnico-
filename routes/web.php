@@ -32,6 +32,10 @@ Route::prefix('superadmin')->name('superadmin.')->group(function () {
         Route::get('/tenants/{tenant}/login-as', [SuperAdminController::class, 'loginAsTenant'])->name('tenants.login-as');
         Route::get('/tenants/{tenant}/usuarios', [SuperAdminController::class, 'tenantUsers'])->name('tenants.users');
         Route::post('/usuarios/{usuario}/cambiar-password', [SuperAdminController::class, 'changeUserPassword'])->name('usuarios.change-password');
+
+        // Gestión de precios de planes
+        Route::get('/planes-precios', [SuperAdminController::class, 'planPreciosIndex'])->name('planes-precios');
+        Route::put('/planes-precios/{planPrecio}', [SuperAdminController::class, 'planPreciosUpdate'])->name('planes-precios.update');
     });
 });
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Models\Configuracion;
+use App\Models\PlanPrecio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -299,5 +300,30 @@ class SuperAdminController extends Controller
 
         return redirect()->route('login')
             ->with('success', '¡Cuenta creada exitosamente! Inicia sesión con tu correo y contraseña.');
+    }
+
+    // ─── Gestión de Precios de Planes ───────────────────────────────────
+    public function planPreciosIndex()
+    {
+        $planes = PlanPrecio::orderBy('precio_mensual')->get();
+        return view('superadmin.planes-precios', compact('planes'));
+    }
+
+    public function planPreciosUpdate(Request $request, PlanPrecio $planPrecio)
+    {
+        $validated = $request->validate([
+            'precio_mensual' => 'required|numeric|min:0',
+            'moneda'         => 'required|string|max:10',
+            'simbolo'        => 'required|string|max:10',
+            'descripcion'    => 'nullable|string|max:255',
+            'activo'         => 'boolean',
+        ]);
+
+        $validated['activo'] = $request->has('activo');
+
+        $planPrecio->update($validated);
+
+        return redirect()->route('superadmin.planes-precios')
+            ->with('success', "Precio del plan {$planPrecio->nombre} actualizado correctamente.");
     }
 }
