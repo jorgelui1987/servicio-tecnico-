@@ -298,6 +298,7 @@ class SuperAdminController extends Controller
         });
 
         return redirect()->route('login')
-            ->with('success', '¡Cuenta creada exitosamente! Inicia sesión con tu correo y contraseña.');
+            ->with('success', '¡Cuenta creada exitosamente! Inicia sesión con tu correo y contraseña.')
+            ->with('pwa_install', true);
     }
 }

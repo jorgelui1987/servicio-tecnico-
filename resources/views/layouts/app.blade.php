@@ -643,6 +643,8 @@
 
 @stack('scripts')
 
+@include('partials.pwa-install-prompt')
+
 <!-- PWA - Service Worker -->
 <script>
 if ('serviceWorker' in navigator) {
