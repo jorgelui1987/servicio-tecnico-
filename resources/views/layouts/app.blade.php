@@ -6,16 +6,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'CRM') — Tienda Celulares</title>
 
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="CRM Celulares">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#1a0a3e">
-    <link rel="icon" type="image/svg+xml" href="/img/icon.svg">
-    <link rel="apple-touch-icon" href="/img/icon-192x192.png">
-
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -531,11 +521,6 @@
         </a>
         @endif
 
-        <a href="{{ route('app.index') }}"
-           class="nav-link {{ request()->routeIs('app.*') ? 'active' : '' }}">
-            <span class="nav-icon"><i class="fas fa-mobile-alt"></i></span>
-            App Móvil
-        </a>
     </nav>
 
     <!-- Logout -->
@@ -649,19 +634,5 @@
 
 @stack('scripts')
 
-@include('partials.pwa-install-prompt')
-
-<!-- PWA - Service Worker -->
-<script>
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js').then(function(registration) {
-            console.log('PWA: ServiceWorker registrado con scope:', registration.scope);
-        }, function(err) {
-            console.log('PWA: Error al registrar ServiceWorker:', err);
-        });
-    });
-}
-</script>
 </body>
 </html>
