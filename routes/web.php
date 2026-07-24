@@ -20,7 +20,7 @@ Route::prefix('superadmin')->name('superadmin.')->group(function () {
     Route::post('/login', [SuperAdminController::class, 'login'])->name('login.post');
     Route::post('/logout', [SuperAdminController::class, 'logout'])->name('logout');
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'check.tenant'])->group(function () {
         Route::get('/dashboard', [SuperAdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/tenants', [SuperAdminController::class, 'tenants'])->name('tenants');
         Route::get('/tenants/crear', [SuperAdminController::class, 'createTenant'])->name('tenants.create');
@@ -72,7 +72,7 @@ Route::post('/registro', [SuperAdminController::class, 'registrarTenant'])->name
 // ── AUTENTICACIÓN DE TENANT ────────────────────────────────────────────────
 Route::middleware(['tenant'])->group(function () {
 
-    // Autenticación
+    // Autenticación (sin check.tenant para evitar bucles)
     Route::middleware('guest')->group(function () {
         Route::get('/login',  [LoginController::class, 'showLoginForm'])->name('login');
         Route::post('/login', [LoginController::class, 'login'])->name('login.post');
@@ -82,8 +82,8 @@ Route::middleware(['tenant'])->group(function () {
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    // ── Rutas protegidas (requieren autenticación) ──────────────────────────
-    Route::middleware('auth')->group(function () {
+    // ── Rutas protegidas (requieren autenticación y verificación de tenant) ──
+    Route::middleware(['auth', 'check.tenant'])->group(function () {
 
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

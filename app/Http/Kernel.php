@@ -29,7 +29,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\CheckTenantStatus::class,
+            // CheckTenantStatus eliminado del grupo global para evitar bucles de redirección
         ],
 
         'api' => [
@@ -51,6 +51,7 @@ class Kernel extends HttpKernel
         'check.admin'        => \App\Http\Middleware\CheckAdmin::class,
         'check.ventas'       => \App\Http\Middleware\CheckVentasAccess::class,
         'check.reparaciones' => \App\Http\Middleware\CheckReparacionesAccess::class,
+        'check.tenant'       => \App\Http\Middleware\CheckTenantStatus::class,
         'tenant'             => \App\Http\Middleware\IdentifyTenant::class,
         'guest'            => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
